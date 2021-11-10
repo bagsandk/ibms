@@ -1,0 +1,2 @@
+<link href="<?= base_url() ?>assets/light/main/css/scrollspyNav.css" rel="stylesheet" type="text/css" />
+<link href="<?= base_url() ?>assets/light/main/css/components/custom-carousel.css" rel="stylesheet" type="text/css" />

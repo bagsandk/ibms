@@ -1,0 +1,1 @@
+<script src="<?= base_url() ?>assets/light/plugins/blockui/jquery.blockUI.min.js"></script>

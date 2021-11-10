@@ -1,0 +1,74 @@
+{
+  "access": [
+    {
+      "accessId": "R-SKKI",
+      "desc": "Read SKKI",
+      "userAccess": false
+    },
+    {
+      "accessId": "U-SKKI",
+      "desc": "Update SKKI",
+      "userAccess": false
+    },
+    {
+      "accessId": "C-SKKI",
+      "desc": "Create SKKI",
+      "userAccess": false
+    },
+    {
+      "accessId": "D-SKKI",
+      "desc": "Delete SKKI",
+      "userAccess": false
+    },
+    {
+      "accessId": "R-PRK",
+      "desc": "Read PRK",
+      "userAccess": false
+    },
+    {
+      "accessId": "U-PRK",
+      "desc": "Update PRK",
+      "userAccess": false
+    },
+    {
+      "accessId": "C-PRK",
+      "desc": "Create PRK",
+      "userAccess": false
+    },
+    {
+      "accessId": "D-PRK",
+      "desc": "Delete PRK",
+      "userAccess": false
+    },
+    {
+      "accessId": "R-REALIASI",
+      "desc": "Read REALIASI",
+      "userAccess": false
+    },
+    {
+      "accessId": "U-REALIASI",
+      "desc": "Update REALIASI",
+      "userAccess": false
+    },
+    {
+      "accessId": "C-REALIASI",
+      "desc": "Create REALIASI",
+      "userAccess": false
+    },
+    {
+      "accessId": "D-REALIASI",
+      "desc": "Delete REALIASI",
+      "userAccess": false
+    },
+    {
+      "accessId": "R-LAPORAN",
+      "desc": "Read LAPORAN",
+      "userAccess": false
+    },
+    {
+      "accessId": "DW-LAPORAN",
+      "desc": "Download LAPORAN",
+      "userAccess": false
+    }
+  ]
+}

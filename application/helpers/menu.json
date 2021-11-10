@@ -1,0 +1,46 @@
+{
+  "menu": [
+    {
+      "name": "Home",
+      "icon": "<i data-feather='home'></i>",
+      "url": "",
+      "module": "AI",
+      "access": []
+    },
+    {
+      "name": "Dashboard",
+      "icon": "<i data-feather='shield'></i>",
+      "url": "ai/dashboard",
+      "module": "AI",
+      "access": []
+    },
+    {
+      "name": "PRK",
+      "icon": "<i data-feather='home'></i>",
+      "url": "",
+      "module": "AI",
+      "access": ["C-SKKI", "R-SKKI", "D-SKKI", "U-SKKI"]
+    },
+    {
+      "name": "SKKI",
+      "icon": "<i data-feather='home'></i>",
+      "url": "ai/skki",
+      "module": "AI",
+      "access": ["C-SKKI", "R-SKKI", "D-SKKI", "U-SKKI"]
+    },
+    {
+      "name": "Realisasi",
+      "icon": "<i data-feather='home'></i>",
+      "url": "",
+      "module": "AI",
+      "access": ["C-SKKI", "R-SKKI", "D-SKKI", "U-SKKI"]
+    },
+    {
+      "name": "Laporan",
+      "icon": "<i data-feather='home'></i>",
+      "url": "",
+      "module": "AI",
+      "access": ["C-SKKI", "R-SKKI", "D-SKKI", "U-SKKI"]
+    }
+  ]
+}
