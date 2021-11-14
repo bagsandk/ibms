@@ -33,9 +33,7 @@
 </script>
 <script type="text/javascript">
   feather.replace();
-  $('.basic').select2({
-    dropdownParent: $('#modalGift')
-  });
+
 </script>
 <?= $this->session->flashdata('message') ?>
 <?php $this->session->unset_userdata('message') ?>

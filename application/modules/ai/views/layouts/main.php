@@ -1,12 +1,17 @@
-
 <?php $this->load->view('layouts/header') ?>
 
 <body class="alt-menu sidebar-noneoverflow">
 	<!-- BEGIN LOADER -->
-	<div id="load_screen">
-		<div class="loader">
+	<div id="load_screen" style="display: block;">
+		<div class="loader-parrent">
 			<div class="loader-content">
-				<div class="spinner-grow align-self-center"></div>
+				<div class="loadingio-spinner-pulse-ib2bujl9udn">
+					<div class="ldio-qu8p9jaut2k">
+						<div></div>
+						<div></div>
+						<div></div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>

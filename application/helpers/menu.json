@@ -17,7 +17,7 @@
     {
       "name": "PRK",
       "icon": "<i data-feather='home'></i>",
-      "url": "",
+      "url": "ai/prk",
       "module": "AI",
       "access": ["C-SKKI", "R-SKKI", "D-SKKI", "U-SKKI"]
     },

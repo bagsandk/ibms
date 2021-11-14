@@ -7,6 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
   <title><?= $title ?> </title>
   <link rel="icon" type="image/x-icon" href="<?= base_url() ?>assets/light/main/img/favicon.ico" />
+  <link href="<?= base_url() ?>assets/light/plugins/loaders/custom-loader.css" rel="stylesheet" type="text/css" />
   <link href="<?= base_url() ?>assets/light/main/css/loader.css" rel="stylesheet" type="text/css" />
   <script src="<?= base_url() ?>assets/light/main/js/loader.js"></script>
 
