@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
-    <title>CORK Admin Template - Login Cover Page</title>
+    <title>Login</title>
     <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
     <!-- BEGIN GLOBAL MANDATORY STYLES -->
     <link href="https://fonts.googleapis.com/css?family=Quicksand:400,500,600,700&display=swap" rel="stylesheet">
@@ -51,7 +51,11 @@
     <?= $this->session->flashdata('message') ?>
     <?php $this->session->unset_userdata('message') ?>
 
-
+    <script>
+        $(document).ready(function() {
+            
+        })
+    </script>
 </body>
 
 </html>

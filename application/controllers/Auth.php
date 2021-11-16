@@ -1,4 +1,7 @@
 <?php
+
+use GuzzleHttp\Exception\ClientException;
+
 class Auth extends CI_Controller
 {
     function __construct()
@@ -11,33 +14,66 @@ class Auth extends CI_Controller
         $this->form_validation->set_rules('username', 'Username', 'required|trim');
         $this->form_validation->set_rules('password', 'Password', 'required|min_length[3]|trim');
         if ($this->form_validation->run()) {
-            $username =  $this->input->post('username');
-            $password =  $this->input->post('password');
-            $user = $this->db->get_where('user', ['email' => $username])->row_array();
-            if ($user) {
-                if ($user['aktif'] == 0) {
-                    snackBar("danger", "Akun Belum aktif! ");
+            // $username =  $this->input->post('username');
+            // $password =  $this->input->post('password');
+            // $user = $this->db->get_where('user', ['email' => $username])->row_array();
+            // if ($user) {
+            //     if ($user['aktif'] == 0) {
+            //         snackBar("danger", "Akun Belum aktif! ");
+            //         redirect('auth');
+            //     }
+            //     if (password_verify($password, $user['password'])) {
+            //         $data = [
+            //             'email' => $user['email'],
+            //             'id_user' => $user['id_user'],
+            //             'foto' => $user['foto'],
+            //             'no_hp' => $user['no_hp'],
+            //             'nama' => $user['nama_user'],
+            //             'gambar' => $user['gambar'],
+            //             'role' => $user['role']
+            //         ];
+            //         snackBar('success', "Hay " . $user['nama_user']);
+            //         $this->session->set_userdata($data);
+            //         redirect('dashboard');
+            //     } else {
+            //         snackBar("danger", "Maaf password yang anda masukan salah! ");
+            //         redirect('auth');
+            //     }
+            // } else {
+            //     snackBar("danger", "Akun Tidak Terdaftar");
+            //     redirect('auth');
+            // }
+            $client = new GuzzleHttp\Client(['base_uri' => 'http://192.168.43.18/project/IBMS/Backend/']);
+            try {
+                $response = $client->post('Auth/SignIn', [
+                    'form_params' => [
+                        'Email' => 'dikirahmadsandi@outlook.com',
+                        'Password' => '123',
+                    ]
+                ]);
+                $body = $response->getBody();
+                $content = json_decode($body->getContents());
+                $this->session->set_userdata('accessToken', $content->data->accessToken);
+                $this->session->set_userdata('refreshToken', $content->data->refreshToken);
+                try {
+                    $response2 = $client->request('GET', 'Access/GetListAccess', [
+                        'headers' => [
+                            'Authorization' => 'Bearer ' . $content->data->accessToken,
+                        ]
+                    ]);
+                    $body2 = $response2->getBody();
+                    $content2 = json_decode($body2->getContents());
+                    $this->session->set_userdata('dataAccess', $content2->data);
+                    $this->session->set_userdata('moduleSelected','');
+                    $this->session->set_userdata('menuSelected','');
+                    
+                    redirect('home');
+                } catch (ClientException $e) {
+                    json_decode($e->getResponse()->getBody()->getContents());
                     redirect('auth');
                 }
-                if (password_verify($password, $user['password'])) {
-                    $data = [
-                        'email' => $user['email'],
-                        'id_user' => $user['id_user'],
-                        'foto' => $user['foto'],
-                        'no_hp' => $user['no_hp'],
-                        'nama' => $user['nama_user'],
-                        'gambar' => $user['gambar'],
-                        'role' => $user['role']
-                    ];
-                    snackBar('success', "Hay " . $user['nama_user']);
-                    $this->session->set_userdata($data);
-                    redirect('dashboard');
-                } else {
-                    snackBar("danger", "Maaf password yang anda masukan salah! ");
-                    redirect('auth');
-                }
-            } else {
-                snackBar("danger", "Akun Tidak Terdaftar");
+            } catch (ClientException $e) {
+                json_decode($e->getResponse()->getBody()->getContents());
                 redirect('auth');
             }
         } else {
@@ -46,40 +82,12 @@ class Auth extends CI_Controller
             $this->load->view('layouts/main_login', $data);
         }
     }
-    function register()
+
+
+    function setSession()
     {
-        $this->load->library('form_validation');
-        $this->load->model('User_model');
-        $this->form_validation->set_rules('no_hp', 'No HP', 'required|max_length[50]|trim');
-        $this->form_validation->set_rules('password', 'Password', 'required|min_length[6]|trim');
-        $this->form_validation->set_rules('nama', 'Nama', 'required|trim|max_length[50]');
-        $this->form_validation->set_rules('email', 'Email', 'required|valid_email|trim');
-        if ($this->form_validation->run()) {
-            if ($this->db->get_where('user', ['email' => $this->input->post('email')])->row_array()) {
-                snackBar('danger', 'Email sudah digunakan!');
-                redirect('auth/daftar');
-            }
-            if ($this->db->get_where('user', ['no_hp' => $this->input->post('no_hp')])->row_array()) {
-                snackBar('danger', 'Nomor sudah digunakan!');
-                redirect('auth/daftar');
-            }
-            $params1 = array(
-                'password' =>  password_hash($this->input->post('password'), PASSWORD_DEFAULT),
-                'role' => 'user',
-                'email' => $this->input->post('email'),
-                'gambar' => 'default.png',
-                'aktif' => '0',
-                'no_hp' =>  $this->input->post('no_hp'),
-                'nama_user' => $this->input->post('nama'),
-            );
-            $id = $this->User_model->add_user($params1);
-            snackBar('success', 'Pendaftaran berhasil, akun akan di verifikasi!');
-            redirect('auth/');
-        } else {
-            $data['_view'] = 'auth/register';
-            $data['title'] = 'Registrasi akun';
-            $this->load->view('layouts/main_login', $data);
-        }
+        $accessToken =  $this->input->post('accessToken');
+        $refreshToken =  $this->input->post('refreshToken');
     }
     function logout()
     {

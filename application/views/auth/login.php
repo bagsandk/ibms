@@ -36,9 +36,9 @@
 
         </div>
 
-        <div class="field-wrapper">
+        <!-- <div class="field-wrapper">
             <a href="auth_pass_recovery.html" class="forgot-pass-link">Forgot Password?</a>
-        </div>
+        </div> -->
 
     </div>
     <?= form_close()?>>

@@ -1,13 +1,15 @@
 {
   "menu": [
     {
-      "name": "Home",
+      "menuCode": 1,
+      "name": "",
       "icon": "<i data-feather='home'></i>",
       "url": "",
       "module": "AI",
       "access": []
     },
     {
+      "menuCode": 1,
       "name": "Dashboard",
       "icon": "<i data-feather='shield'></i>",
       "url": "ai/dashboard",
@@ -15,6 +17,7 @@
       "access": []
     },
     {
+      "menuCode": 1,
       "name": "PRK",
       "icon": "<i data-feather='home'></i>",
       "url": "ai/prk",
@@ -22,6 +25,7 @@
       "access": ["C-SKKI", "R-SKKI", "D-SKKI", "U-SKKI"]
     },
     {
+      "menuCode": 1,
       "name": "SKKI",
       "icon": "<i data-feather='home'></i>",
       "url": "ai/skki",
@@ -29,13 +33,31 @@
       "access": ["C-SKKI", "R-SKKI", "D-SKKI", "U-SKKI"]
     },
     {
-      "name": "Realisasi",
+      "menuCode": 1,
+      "name": "Kontrak",
       "icon": "<i data-feather='home'></i>",
-      "url": "",
+      "url": "ai/kontrak",
       "module": "AI",
       "access": ["C-SKKI", "R-SKKI", "D-SKKI", "U-SKKI"]
     },
     {
+      "menuCode": 1,
+      "name": "Realisasi",
+      "icon": "<i data-feather='home'></i>",
+      "url": "ai/realisasi",
+      "module": "AI",
+      "access": ["C-SKKI", "R-SKKI", "D-SKKI", "U-SKKI"]
+    },
+    {
+      "menuCode": 1,
+      "name": "Pengalihan",
+      "icon": "<i data-feather='home'></i>",
+      "url": "ai/pengalihan",
+      "module": "AI",
+      "access": ["C-SKKI", "R-SKKI", "D-SKKI", "U-SKKI"]
+    },
+    {
+      "menuCode": 1,
       "name": "Laporan",
       "icon": "<i data-feather='home'></i>",
       "url": "",

@@ -50,5 +50,4 @@
 <link href="<?= base_url() ?>assets/light/plugins/lightbox/custom-photswipe.css" rel="stylesheet" type="text/css" />
 <link href="<?= base_url() ?>assets/light/plugins/file-upload/file-upload-with-preview.min.css" rel="stylesheet" type="text/css" />
 <link href="<?= base_url() ?>assets/light/main/css/components/custom-list-group.css" rel="stylesheet" type="text/css">
-<link rel="stylesheet" type="text/css" href="<?= base_url() ?>assets/light/plugins/select2/select2.min.css">
 <link href="<?= base_url() ?>assets/light/main/css/elements/breadcrumb.css" rel="stylesheet" type="text/css" /> -->

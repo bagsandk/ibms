@@ -15,6 +15,7 @@ class Home extends CI_Controller
         $data['_view'] = 'home/index';
         $data['_css'] = 'home/css';
         $data['_js'] = 'home/js';
+        $data['module'] = getModule();
         $this->load->view('layouts/main', $data);
     }
 }

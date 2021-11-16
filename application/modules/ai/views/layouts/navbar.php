@@ -13,7 +13,7 @@
 
     <ul class="list-unstyled menu-categories" id="topAccordion">
 
-      <?php foreach (menuAccess('AI') as $m) : ?>
+      <?php foreach (menuAccess() as $m) : ?>
         <li class="menu single-menu <?= menuActive($m->url)?>">
           <a href="<?= base_url($m->url) ?>" aria-expanded="true" class="dropdown-toggle">
             <div class="">

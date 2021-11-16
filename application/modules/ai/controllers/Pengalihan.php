@@ -1,7 +1,7 @@
 <?php
 
 
-class Skki extends CI_Controller
+class Pengalihan extends CI_Controller
 {
     function __construct()
     {
@@ -11,19 +11,15 @@ class Skki extends CI_Controller
 
     function index()
     {
-        $data['title'] = 'skki';
-        $data['_view'] = 'skki/index';
-        $data['_css'] = 'skki/css';
-        $data['_js'] = 'skki/js';
+        $data['title'] = 'Pengalihan';
+        $data['_view'] = 'pengalihan/index';
+        $data['_css'] = 'pengalihan/css';
+        $data['_js'] = 'pengalihan/js';
         $this->load->view('layouts/main', $data);
     }
     function get_data()
     {
         $this->load->helper('data_table_ssp');
-        if (isset($_POST['order'])) {
-            $index = $_POST['order']['0']['column'];
-            var_dump($_POST['columns'][$index]['name']);
-        }
         dataTable('user', ['nama_user', 'email', 'no_hp'], ['nama_user', 'email', 'no_hp'], ['nama_user', 'email', 'no_hp'], ['nama_user' => 'asc']);
     }
 }

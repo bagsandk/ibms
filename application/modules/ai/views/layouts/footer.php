@@ -23,7 +23,7 @@
 <script src="<?= base_url() ?>assets/light/main/js/app.js"></script>
 <script src="<?= base_url() ?>assets/light/plugins/notification/snackbar/snackbar.min.js"></script>
 <script src="<?= base_url() ?>assets/light/plugins/table/datatable/datatables.js"></script>
-<script src="<?= base_url() ?>assets/light/main/js/scrollspyNav.js"></script>
+<!-- <script src="<?= base_url() ?>assets/light/main/js/scrollspyNav.js"></script> -->
 <script src="<?= base_url() ?>assets/light/plugins/font-icons/feather/feather.min.js"></script>
 <script>
   let baseUrl = '<?= base_url() ?>'
@@ -56,7 +56,7 @@
 <script src="<?= base_url() ?>assets/light/plugins/lightbox/custom-photswipe.js"></script>
 
 <script src="<?= base_url() ?>assets/light/plugins/file-upload/file-upload-with-preview.min.js"></script>
-<script src="<?= base_url() ?>assets/light/plugins/select2/select2.min.js"></script> -->
+ -->
 
 
 

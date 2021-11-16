@@ -6,7 +6,8 @@ class Prk extends CI_Controller
     function __construct()
     {
         parent::__construct();
-        // auth();
+        getMenu($this->session->userdata('moduleSelected'));
+        getAccess($this->session->userdata('menuSelected'));
     }
 
     function index()
