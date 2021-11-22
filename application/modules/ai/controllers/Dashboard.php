@@ -6,6 +6,8 @@ class Dashboard extends CI_Controller
     function __construct()
     {
         parent::__construct();
+        getMenu(1);
+        getAccess($this->session->userdata('menuSelected'));
         // auth();
     }
 

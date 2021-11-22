@@ -7,6 +7,8 @@ class Skki extends CI_Controller
     {
         parent::__construct();
         // auth();
+        getMenu(1);
+        getAccess($this->session->userdata('menuSelected'));
     }
 
     function index()

@@ -1,5 +1,6 @@
 <script src="<?= base_url() ?>assets/light/plugins/blockui/jquery.blockUI.min.js"></script>
 <script src="<?= base_url() ?>assets/light/plugins/select2/select2.min.js"></script>
+<script src="https://unpkg.com/imask"></script>
 <script type="text/javascript">
   var table;
   $(document).ready(function() {
@@ -9,17 +10,18 @@
           sPrevious: '<i data-feather="arrow-left"></i>',
           sNext: '<i data-feather="arrow-right"></i>'
         },
-        sSearch: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>',
+        sSearch: '<i data-feather="search"></i>',
         sSearchPlaceholder: 'Search...',
         sLengthMenu: 'Results :  _MENU_',
       },
       stripeClasses: [],
       lengthMenu: [5, 10, 20, 50],
-      pageLength: 5,
+      pageLength: 10,
       processing: true,
       serverSide: true,
       order: [],
       columns: [{
+          // order dfault
           name: 'prkCode',
           data: 'no',
           title: '#',
@@ -45,8 +47,8 @@
           title: 'Unit',
         },
         {
-          name: 'prkJenis',
-          data: 'prkJenis',
+          name: 'psStatus',
+          data: 'psStatus',
           title: 'Jenis',
         },
         {
@@ -73,7 +75,7 @@
 
       ],
       ajax: {
-        url: `http://192.168.43.18/project/IBMS/Backend/PRK/GetAllPRK`,
+        url: `<?= IP_BACKEND ?>PRK/GetAllPRK`,
         type: "POST",
         headers: {
           "Authorization": "Bearer <?= $this->session->userdata('accessToken') ?>",
@@ -81,10 +83,14 @@
         dataFilter: function(data) {
           var json = JSON.parse(data)
           return JSON.stringify(json.data)
-        }
+        },
+        data: function(d) {
+          d.tahunCode = $("#filter-tahun option:selected").val()
+        },
       },
+      scrollX: true,
       columnDefs: [{
-        targets: [0],
+        targets: [0, 9],
         orderable: false,
       }, ],
       drawCallback: function(settings) {
@@ -99,28 +105,189 @@
     $('#prkModalLabel').html('Edit PRK')
     $('#btn-simpan').removeAttr('style')
     $('#btn-simpan').attr('name', 'edit');
-
-    $('input[name="tahun"]').val('2020');
     $('#prkModal').modal('show')
   })
+
   $(document).on('click', '.detailButton', (e) => {
     let dataid = e.target.getAttribute('data-prk')
     $("#prk-form :input").prop("disabled", true);
     $('#prkModalLabel').html('Detail PRK')
     $('#btn-simpan').attr('style', 'display:none');
-
     $('#prkModal').modal('show')
   })
+
+  $("select[name='tahunCode']").select2({
+    data: GetAllTahun.data.map((a) => {
+      return {
+        id: a.tahunCode,
+        text: a.tahun
+      }
+    }),
+    dropdownParent: $('#prkModal')
+  });
+
+  $("select[name='filter-tahun']").select2({
+    data: GetAllTahun.data.map((a) => {
+      return {
+        id: a.tahunCode,
+        text: a.tahun
+      }
+    }),
+  });
+
+  $("select[name='unitCode']").select2({
+    data: GetAllUnit.data.map((a) => {
+      return {
+        id: a.unitCode,
+        text: a.unitNama
+      }
+    }),
+    dropdownParent: $('#prkModal')
+  });
+
   $('#addButton').click(() => {
     $('#prk-form').trigger('reset');
+    // $('select[name="unitCode"]').prop('selectedIndex', 0);
     $('#btn-simpan').removeAttr('style')
     $("#prk-form :input").prop("disabled", false);
     $('#prkModalLabel').html('Tambah PRK')
     $('#btn-simpan').attr('name', 'tambah');
   })
+  $('#addButtonLanjutan').click(() => {
+    const PRK = function() {
+      var result = null;
+      $.ajax({
+        async: false,
+        url: `<?= IP_BACKEND ?>PRK/GetAllPRKNoDt/sebelum`,
+        type: "GET",
+        headers: {
+          "Authorization": "Bearer <?= $this->session->userdata('accessToken') ?>",
+        },
+        success: function(data) {
+          result = data;
+        }
+      })
+      return result;
+    }()
+    $("select[name='prkCode']").select2({
+      data: PRK.data.map((a) => {
+        return {
+          id: a.prkCode,
+          text: a.prkNo
+        }
+      }),
+      dropdownParent: $('#prkModalLanjutan')
+    });
+  })
+  $('select[name="prkCode"]').on("select2:select", function(e) {
+    let id = e.params.data.id
+    if (id) {
+      const PRKONE = function() {
+        var result = null;
+        $.ajax({
+          async: false,
+          url: `<?= IP_BACKEND ?>PRK/GetOnePRK/index/${id}`,
+          type: "GET",
+          headers: {
+            "Authorization": "Bearer <?= $this->session->userdata('accessToken') ?>",
+          },
+          success: function(data) {
+            result = data;
+          }
+        })
+        return result;
+      }()
+      $('#detail-prk-form').html(`<table id="zero" class="table " style="width:100%">
+                <tr>
+                  <th>Tahun</th>
+                  <th>NO PRK</th>
+                  <th>Program</th>
+                  <th>Unit</th>
+                  <th>Jenis</th>
+                  <th>Uraian</th>
+                  <th>Nilai</th>
+                  <th>Fungsi</th>
+                </tr>
+                <tr>
+                  <td>${PRKONE.data.tahun}</td>
+                  <td>${PRKONE.data.prkNo}</td>
+                  <td>${PRKONE.data.programNama}</td>
+                  <td>${PRKONE.data.unitNama}</td>
+                  <td>${PRKONE.data.psStatus}</td>
+                  <td>${PRKONE.data.prkUraian}</td>
+                  <td>${PRKONE.data.prkNilai}</td>
+                  <td>${PRKONE.data.fungsiNama}</td>
+                </tr>
+              </table>`)
+    } else {
+      $('#detail-prk-form').html('')
+    }
 
-  $('.basic').select2({
-    dropdownParent: $('#prkModal')
+  });
+  $('#btn-simpan').click(function() {
+    let form = $('#prk-form').serialize();
+    loadingKuy();
+    $(".e_message").html("");
+    if (this.name == 'tambah') {
+      $.ajax({
+        url: `<?= IP_BACKEND ?>PRK/InsertPRKMurni`,
+        type: "POST",
+        headers: {
+          "Authorization": "Bearer <?= $this->session->userdata('accessToken') ?>",
+        },
+        data: form,
+        success: function(data, textStatus, xhr) {
+          table = $('#zero-config').DataTable()
+          toastSuccess(data.success.message);
+          table.ajax.reload()
+          $("#prkModal").modal("toggle");
+          $('#prk-form').trigger('reset');
+        },
+        error: function(xhr, textStatus) {
+          let result = xhr.responseJSON
+          errorForm = result.error.form;
+          for (const key in errorForm) {
+            $("#e-" + key).html(errorForm[key]);
+          }
+        }
+      })
+      unLoadingKuy();
+    }
+  })
+  $('#btn-simpan-lanjutan').click(function() {
+    let form = $('#prk-form-lanjutan').serialize();
+    loadingKuy();
+    $(".e_message").html("");
+    if (this.name == 'tambah') {
+      $.ajax({
+        url: `<?= IP_BACKEND ?>PRK/InsertPRKLanjutan`,
+        type: "POST",
+        headers: {
+          "Authorization": "Bearer <?= $this->session->userdata('accessToken') ?>",
+        },
+        data: form,
+        success: function(data, textStatus, xhr) {
+          table = $('#zero-config').DataTable()
+          toastSuccess(data.success.message);
+          table.ajax.reload()
+          $("#prkModalLanjutan").modal("toggle");
+          $('#prk-form-lanjutan').trigger('reset');
+        },
+        error: function(xhr, textStatus) {
+          let result = xhr.responseJSON
+          errorForm = result.error.form;
+          for (const key in errorForm) {
+            $("#e-" + key).html(errorForm[key]);
+          }
+        }
+      })
+      unLoadingKuy();
+    }
+  })
+
+  $('select[name="filter-tahun"]').on('change', function() {
+    let table = $('#zero-config').DataTable()
+    table.draw()
   });
 
   function getAction() {
@@ -136,4 +303,11 @@
                     </div>
                   </div>`;
   }
+</script>
+<script>
+  var numberMask = IMask(
+    document.getElementById('input-prkNilai'), {
+      mask: Number,
+      min: 1,
+    });
 </script>

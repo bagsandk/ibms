@@ -60,7 +60,7 @@
       "menuCode": 1,
       "name": "Laporan",
       "icon": "<i data-feather='home'></i>",
-      "url": "",
+      "url": "ai/laporan",
       "module": "AI",
       "access": ["C-SKKI", "R-SKKI", "D-SKKI", "U-SKKI"]
     }

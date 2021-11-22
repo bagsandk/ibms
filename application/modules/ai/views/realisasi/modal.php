@@ -2,7 +2,7 @@
   <div class="modal-dialog modal-dialog-centered  modal-xl " role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="prkModalLabel">Tambah PRK</h5>
+        <h5 class="modal-title" id="prkModalLabel">Tambah Realisasi</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <i data-feather="x"></i>
         </button>
@@ -10,53 +10,58 @@
       <div class="modal-body">
         <form id="prk-form">
           <div class="form-row">
-            <div class="form-group col-md-6">
-              <label for="input-tahun">Tahun</label>
-              <input type="text" name="tahun" class="form-control" id="input-tahun" placeholder="Tahun">
-            </div>
-            <div class="form-group col-md-6">
-              <label for="input-noprk">No PRK</label>
-              <select class="form-control  basic">
-                <option selected="selected">orange</option>
-                <option>white</option>
-                <option>purple</option>
+            <div class="form-group col-md-12">
+              <label for="input-dkCode">Kontrak</label>
+              <select name="dkCode" class="form-control  basic">
+                <option value="">Pilih Kontrak</option>
               </select>
+              <span class="e_message" style="color: #e7515a;" id="e-dkCode"><span>
             </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group col-md-6">
-              <label for="input-nousulan">No usulan</label>
-              <input type="text" name="nousulan" class="form-control" id="input-nousulan" placeholder="No Usulan">
+            <div class="table-responsive" id="detail-kontrak-form">
+
             </div>
             <div class="form-group col-md-6">
-              <label for="input-tanggalusulan">Tanggal usulan</label>
-              <input type="date" name="tanggalusulan" class="form-control" id="input-tanggalusulan" placeholder="Tanggal usulan">
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group col-md-6">
-              <label for="input-noskki">No SKKI</label>
-              <input type="text" name="noskki" class="form-control" id="input-noskki" placeholder="noskki">
+              <label for="input-tahunCode">Tahun</label>
+              <select name="tahunCode" class="form-control  basic">
+                <option>Pilih Tahun</option>
+              </select>
+              <span class="e_message" style="color: #e7515a;" id="e-tahunCode"><span>
             </div>
             <div class="form-group col-md-6">
-              <label for="input-unit">Unit</label>
-              <input type="text" name="unit" class="form-control" id="input-unit" placeholder="Unit">
+              <label for="input-realisasiJenis">Jenis</label>
+              <select name="realisasiJenis" class="form-control  basic">
+                <option value="UNIT">UNIT</option>
+                <option value="POLIS">POLIS</option>
+                <option value="PUSAT">PUSAT</option>
+              </select>
+              <span class="e_message" style="color: #e7515a;" id="e-realisasiJenis"><span>
             </div>
-          </div>
-          <div class="form-row">
             <div class="form-group col-md-6">
-              <label for="input-tanggalterbit">Tanggal terbit</label>
-              <input type="text" name="tanggalterbit" class="form-control" id="input-tanggalterbit" placeholder="Tanggal terbit">
+              <label for="input-unitCode">Unit</label>
+              <select name="unitCode" class="form-control  basic">
+                <option>Pilih</option>
+              </select>
+              <span class="e_message" style="color: #e7515a;" id="e-unitCode"><span>
             </div>
             <div class="form-group col-md-6">
-              <label for="input-nilaiskki">Nilai SKKI</label>
-              <input type="text" name="nilaiskki" class="form-control" id="input-nilaiskki" placeholder="Nilai SKKI">
+              <label for="input-drTgl">Tanggal Realisasi</label>
+              <input type="date" name="drTgl" class="form-control" id="input-drTgl" placeholder="Tanggal Realisasi">
+              <span class="e_message" style="color: #e7515a;" id="e-drTgl"><span>
             </div>
-          </div>
-          <div class="form-row">
             <div class="form-group col-md-6">
-              <label for="input-uraian">Uraian</label>
-              <input type="text" name="uraian" class="form-control" id="input-uraian" placeholder="Uraian Pekerjaan">
+              <label for="input-drNoBG">No BG</label>
+              <input type="text" name="drNoBG" class="form-control" id="input-drNoBG" placeholder="No BG">
+              <span class="e_message" style="color: #e7515a;" id="e-drNoBG"><span>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="input-drNilai">Nilai</label>
+              <input type="text" name="drNilai" class="form-control" id="input-drNilai" placeholder="Nilai ">
+              <span class="e_message" style="color: #e7515a;" id="e-drNilai"><span>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="input-drKeterangan">Keterangan</label>
+              <input type="text" name="drKeterangan" class="form-control" id="input-drKeterangan" placeholder="Keterangan ">
+              <span class="e_message" style="color: #e7515a;" id="e-drKeterangan"><span>
             </div>
           </div>
       </div>

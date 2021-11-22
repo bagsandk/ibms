@@ -21,10 +21,55 @@
 <script src="<?= base_url() ?>assets/light/bootstrap/js/bootstrap.min.js"></script>
 <script src="<?= base_url() ?>assets/light/plugins/perfect-scrollbar/perfect-scrollbar.min.js"></script>
 <script src="<?= base_url() ?>assets/light/main/js/app.js"></script>
+<script src="<?= base_url() ?>assets/light/main/js/toast.js"></script>
 <script src="<?= base_url() ?>assets/light/plugins/notification/snackbar/snackbar.min.js"></script>
 <script src="<?= base_url() ?>assets/light/plugins/table/datatable/datatables.js"></script>
 <!-- <script src="<?= base_url() ?>assets/light/main/js/scrollspyNav.js"></script> -->
 <script src="<?= base_url() ?>assets/light/plugins/font-icons/feather/feather.min.js"></script>
+
+<script>
+  const GetAllTahun = function() {
+    var result = null;
+    $.ajax({
+      async: false,
+      url: `<?= IP_BACKEND ?>Tahun/GetAllTahun`,
+      type: "GET",
+      headers: {
+        "Authorization": "Bearer <?= $this->session->userdata('accessToken') ?>",
+      },
+      success: function(data) {
+        result = data;
+      }
+    })
+    return result;
+  }();
+  const GetAllUnit = function() {
+    var result = null;
+    $.ajax({
+      async: false,
+      url: `<?= IP_BACKEND ?>Unit/GetAllUnit`,
+      type: "GET",
+      headers: {
+        "Authorization": "Bearer <?= $this->session->userdata('accessToken') ?>",
+      },
+      success: function(data) {
+        result = data;
+      }
+    })
+    return result;
+  }();
+
+  function loadingKuy() {
+    var load_screen = document.getElementById("load_screen");
+    load_screen.style.display = "block";
+  }
+
+  function unLoadingKuy() {
+    var load_screen = document.getElementById("load_screen");
+    load_screen.style.display = "none";
+  }
+</script>
+
 <script>
   let baseUrl = '<?= base_url() ?>'
   $(document).ready(function() {
@@ -33,30 +78,13 @@
 </script>
 <script type="text/javascript">
   feather.replace();
-
 </script>
 <?= $this->session->flashdata('message') ?>
 <?php $this->session->unset_userdata('message') ?>
-<!-- END GLOBAL MANDATORY STYLES -->
 
-<!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM SCRIPTS -->
 <?php if (isset($_js) && $_js)
   $this->load->view($_js);
 ?>
-<!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM SCRIPTS -->
-
-
-<!-- <script src="<?= base_url() ?>assets/light/main/js/components/ui-accordions.js"></script>
-<script src="<?= base_url() ?>assets/light/main/js/custom.js"></script>
-<script src="<?= base_url() ?>assets/light/plugins/apex/apexcharts.min.js"></script>
-<script src="<?= base_url() ?>assets/light/main/js/dashboard/dash_1.js"></script>
-<script src="<?= base_url() ?>assets/light/main/js/dashboard/dash_2.js"></script>
-<script src="<?= base_url() ?>assets/light/plugins/lightbox/photoswipe.min.js"></script>
-<script src="<?= base_url() ?>assets/light/plugins/lightbox/photoswipe-ui-default.min.js"></script>
-<script src="<?= base_url() ?>assets/light/plugins/lightbox/custom-photswipe.js"></script>
-
-<script src="<?= base_url() ?>assets/light/plugins/file-upload/file-upload-with-preview.min.js"></script>
- -->
 
 
 

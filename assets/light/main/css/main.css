@@ -28,6 +28,9 @@
 .bg-yellow {
   background-color: #fef200;
 }
+.bg-gray {
+  background-color: #b8b8b8;
+}
 .bg-gradient-primary {
   background: rgb(40, 86, 104);
   background: linear-gradient(

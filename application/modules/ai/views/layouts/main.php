@@ -82,7 +82,7 @@
 
 				<div class="page-header">
 					<div class="page-title">
-						<h3><?= $title ?></h3>
+						<!-- <h3><?= $title ?></h3> -->
 					</div>
 				</div>
 

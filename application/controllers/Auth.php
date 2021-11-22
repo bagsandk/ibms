@@ -43,7 +43,7 @@ class Auth extends CI_Controller
             //     snackBar("danger", "Akun Tidak Terdaftar");
             //     redirect('auth');
             // }
-            $client = new GuzzleHttp\Client(['base_uri' => 'http://192.168.43.18/project/IBMS/Backend/']);
+            $client = new GuzzleHttp\Client(['base_uri' => IP_BACKEND]);
             try {
                 $response = $client->post('Auth/SignIn', [
                     'form_params' => [
@@ -64,9 +64,9 @@ class Auth extends CI_Controller
                     $body2 = $response2->getBody();
                     $content2 = json_decode($body2->getContents());
                     $this->session->set_userdata('dataAccess', $content2->data);
-                    $this->session->set_userdata('moduleSelected','');
-                    $this->session->set_userdata('menuSelected','');
-                    
+                    $this->session->set_userdata('moduleSelected', '');
+                    $this->session->set_userdata('menuSelected', '');
+
                     redirect('home');
                 } catch (ClientException $e) {
                     json_decode($e->getResponse()->getBody()->getContents());
