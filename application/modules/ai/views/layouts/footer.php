@@ -28,50 +28,11 @@
 <script src="<?= base_url() ?>assets/light/plugins/font-icons/feather/feather.min.js"></script>
 
 <script>
-  const GetAllTahun = function() {
-    var result = null;
-    $.ajax({
-      async: false,
-      url: `<?= IP_BACKEND ?>Tahun/GetAllTahun`,
-      type: "GET",
-      headers: {
-        "Authorization": "Bearer <?= $this->session->userdata('accessToken') ?>",
-      },
-      success: function(data) {
-        result = data;
-      }
-    })
-    return result;
-  }();
-  const GetAllUnit = function() {
-    var result = null;
-    $.ajax({
-      async: false,
-      url: `<?= IP_BACKEND ?>Unit/GetAllUnit`,
-      type: "GET",
-      headers: {
-        "Authorization": "Bearer <?= $this->session->userdata('accessToken') ?>",
-      },
-      success: function(data) {
-        result = data;
-      }
-    })
-    return result;
-  }();
-
-  function loadingKuy() {
-    var load_screen = document.getElementById("load_screen");
-    load_screen.style.display = "block";
-  }
-
-  function unLoadingKuy() {
-    var load_screen = document.getElementById("load_screen");
-    load_screen.style.display = "none";
-  }
+  let accessToken = "<?= $this->session->userdata('accessToken') ?>";
+  let API_URL = "<?= IP_BACKEND ?>";
+let baseUrl = '<?= base_url() ?>'
 </script>
-
 <script>
-  let baseUrl = '<?= base_url() ?>'
   $(document).ready(function() {
     App.init();
   });

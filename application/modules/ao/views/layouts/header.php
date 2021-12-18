@@ -7,6 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
   <title><?= $title ?> </title>
   <link rel="icon" type="image/x-icon" href="<?= base_url() ?>assets/light/main/img/favicon.ico" />
+  <link href="<?= base_url() ?>assets/light/plugins/loaders/custom-loader.css" rel="stylesheet" type="text/css" />
   <link href="<?= base_url() ?>assets/light/main/css/loader.css" rel="stylesheet" type="text/css" />
   <script src="<?= base_url() ?>assets/light/main/js/loader.js"></script>
 
@@ -15,6 +16,9 @@
   <link href="<?= base_url() ?>assets/light/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
   <link href="<?= base_url() ?>assets/light/main/css/plugins.css" rel="stylesheet" type="text/css" />
   <link href="<?= base_url() ?>assets/light/plugins/notification/snackbar/snackbar.min.css" rel="stylesheet" type="text/css">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+  <link rel="stylesheet" href="<?= base_url() ?>assets/light/plugins/font-icons/fontawesome/css/regular.css">
+  <link rel="stylesheet" href="<?= base_url() ?>assets/light/plugins/font-icons/fontawesome/css/fontawesome.css">
   <!-- END GLOBAL MANDATORY STYLES -->
 
   <!--  BEGIN CUSTOM STYLE FILE  -->
@@ -31,9 +35,7 @@
 
 </head>
 
-<!-- <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
-<link rel="stylesheet" href="<?= base_url() ?>assets/light/plugins/font-icons/fontawesome/css/regular.css">
-<link rel="stylesheet" href="<?= base_url() ?>assets/light/plugins/font-icons/fontawesome/css/fontawesome.css">
+<!-- 
 <link rel="stylesheet" type="text/css" href="<?= base_url() ?>assets/light/plugins/table/datatable/datatables.css">
 <link rel="stylesheet" type="text/css" href="<?= base_url() ?>assets/light/main/css/forms/theme-checkbox-radio.css">
 <link rel="stylesheet" type="text/css" href="<?= base_url() ?>assets/light/plugins/table/datatable/dt-global_style.css">
@@ -48,5 +50,4 @@
 <link href="<?= base_url() ?>assets/light/plugins/lightbox/custom-photswipe.css" rel="stylesheet" type="text/css" />
 <link href="<?= base_url() ?>assets/light/plugins/file-upload/file-upload-with-preview.min.css" rel="stylesheet" type="text/css" />
 <link href="<?= base_url() ?>assets/light/main/css/components/custom-list-group.css" rel="stylesheet" type="text/css">
-<link rel="stylesheet" type="text/css" href="<?= base_url() ?>assets/light/plugins/select2/select2.min.css">
 <link href="<?= base_url() ?>assets/light/main/css/elements/breadcrumb.css" rel="stylesheet" type="text/css" /> -->

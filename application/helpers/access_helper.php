@@ -22,7 +22,7 @@ function menuAccess()
     $ci = &get_instance();
     return array_filter($json->menu, function ($obj) use ($ci) {
         return array_filter($ci->session->userdata('menu'), function ($oo) use ($obj) {
-            return $obj->menuCode == $oo->menuCode;
+            return $obj->moduleCode == $oo->moduleCode;
         });
     });
 }
@@ -63,7 +63,7 @@ function getMenu($module)
             return $obj->moduleCode == $module;
         });
         if ($moduleSelected) {
-            $ci->session->set_userdata('moduleSelected', $moduleSelected[0]->moduleCode);
+            $ci->session->set_userdata('moduleSelected', array_values($moduleSelected)[0]->moduleCode);
         }
         $menu = [];
         foreach ($moduleSelected as $mm) {
@@ -87,7 +87,6 @@ function getAccess($menu)
         if ($menuSelected) {
             $ci->session->set_userdata('menuSelected', $menuSelected[0]->menuCode);
         }
-        // var_dump($menuSelected);
         foreach ($menuSelected as $acc) {
             $access = $acc->access;
         }
