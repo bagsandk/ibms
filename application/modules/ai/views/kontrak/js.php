@@ -63,8 +63,8 @@
         },
         {
           title: 'Action',
-          name: 'kontrakNo',
-          data: 'kontrakNo',
+          name: 'kontrakCode',
+          data: 'kontrakCode',
           render: getAction
         },
       ],
@@ -87,16 +87,30 @@
   })
 
   $(document).on('click', '.detailButton', (e) => {
-    let dataid = e.target.getAttribute('data-prk')
-    $("#prk-form :input").prop("disabled", true);
-    $('#prkModalLabel').html('Detail Kontrak')
-    $('#btn-simpan').attr('style', 'display:none');
-
-    $('#prkModal').modal('show')
+    $('#detailModal').modal({
+      backdrop: 'static',
+      keyboard: false
+    })
+    let dataid = e.target.getAttribute('data-id')
+    console.log(e)
+    $.ajax({
+      async: false,
+      url: `${API_URL}Kontrak/GetOneKontrak/index/${dataid}`,
+      type: "GET",
+      headers: {
+        "Authorization": `Bearer ${accessToken}`,
+      },
+      success: function(data) {
+        const k = data && data.data
+        $('#tambahPrkDetail').attr('data-id', k.dkCode)
+        $('#kontrak-detail').html(`<div class="col-6"> <table> <tr> <td>NO Kontrak</td> <td>:</td> <td>${k.kontrakNo}</td> </tr> <tr> <td>Vendor</td> <td>:</td> <td>${k.vendorNama}</td> </tr> <tr> <td>Nilai</td> <td>:</td> <td>${k.dkNilai}</td> </tr> <tr> <td>AI Terbit</td> <td>:</td> <td>${k.dkAITerbit}</td> </tr> <tr> <td>AKI Terbit</td> <td>:</td> <td>${k.dkAKITerbit}</td> </tr> </table> </div> <div class="col-6 "> <table> <tr> <td>Tanggal Awal</td> <td>:</td> <td>${k.kontrakTglAwal}</td> </tr> <tr> <td>Tanggal Akhir</td> <td>:</td> <td>${k.kontrakTglAkhir}</td> </tr> <tr> <td>Sistem Pengadaan</td> <td>:</td> <td>${k.kontrakSistemPengadaan}</td> </tr> <tr> <td>Sumber Dana</td> <td>:</td> <td>${k.kontrakSumberDana}</td> </tr> <tr> <td>Uraian</td> <td>:</td> <td>${k.kontrakUraian}</td> </tr> <tr> <td>Keterangan</td> <td>:</td> <td>${k.kontrakKeterangan}</td> </tr> </table> </div>`)
+        kontrakDetailPRK(k.dkCode)
+      }
+    })
   })
 
   $('#addButton').click(() => {
-    selectPRKAll()
+    getSKKIInput()
     $('#prk-form').trigger('reset');
     $('#btn-simpan').removeAttr('style')
     $("#prk-form :input").prop("disabled", false);
@@ -144,57 +158,90 @@
       unLoadingKuy();
     }
   })
-
-  getPRKInput()
+  $(document).on('click', '#tambahPrkDetail', function(e) {
+    let dkcode = e.target.getAttribute('data-id')
+    let pscode = $("#detail-input-prk option:selected").val()
+    $.ajax({
+      url: `${API_URL}Kontrak/InsertPRKToKontrak`,
+      type: "POST",
+      headers: {
+        "Authorization": `Bearer ${accessToken}`,
+      },
+      data: {
+        dkCode: dkcode,
+        psCode: pscode
+      },
+      success: function(data, textStatus, xhr) {
+        console.log(data)
+        toastSuccess(data.success.message)
+        kontrakDetailPRK(dkcode)
+      },
+      error: function(xhr, textStatus) {
+        const er = xhr.responseJSON
+        toastError(er.error.form.psCode)
+      }
+    })
+  })
 </script>
 
 <script>
-  function selectPRKAll() {
-    $("select[id='input-prk']").select2({
-      data: GetAllPRKNoDt.data.map((a) => {
-        return {
-          id: a.prkCode,
-          text: a.prkNo
-        }
-      }),
-      dropdownParent: $('#prkModal > .modal-dialog > .modal-content')
-
-    });
-  }
-  console.log($("select[id='input-prk").select2())
-  $("select[id='input-prk").on("results:message", function() {
-    this.dropdown._positionDropdown();
-  });
-  const getPRKInput = function() {
+  function kontrakDetailRemovePRK(psdkCode, dkCode) {
     $.ajax({
-      async: false,
-      url: `${API_URL}PRK/GetAllPRKNoDt/forSKKI/${$("#input-tahun option:selected").val()}`,
+      url: `${API_URL}Kontrak/DeletePRKFromKontrak/index/${psdkCode}`,
       type: "GET",
       headers: {
         "Authorization": `Bearer ${accessToken}`,
       },
-      success: function(o) {
-        $("select[id='input-prk']").empty();
-        var no = new Option("Pilih PRK", "");
-        $(no).html("Pilih PRK");
-        $("select[id='input-prk']").append(no);
-        $("select[id='input-prk']").select2({
-          data: o.data.map((a) => {
-            return {
-              id: a.prkCode,
-              text: a.prkNo
-            }
-          }),
-          dropdownParent: $('#prkModal > .modal-dialog > .modal-content')
-        });
+      success: function(data, textStatus, xhr) {
+        console.log(data)
+        toastSuccess(data.success.message)
+        kontrakDetailPRK(dkCode)
+      },
+      error: function(xhr, textStatus) {
+        const er = xhr.responseJSON
+        toastError(er.error.form.psCode)
       }
     })
   }
 
+  function kontrakDetailPRK(dkCode) {
+    $.ajax({
+      async: false,
+      url: `${API_URL}PRK/GetAllPRKNoDt/forKontrak/${dkCode}`,
+      type: "GET",
+      headers: {
+        "Authorization": `Bearer ${accessToken}`,
+      },
+      success: function(data) {
+        const prk = data && data.data
+        const item = prk.map((p) => {
+          const tr = `<tr>
+          <td>${p.prkNo}</td>
+          <td>${p.tahun}</td>
+          <td>${p.programNama}</td>
+          <td>${p.unitNama}</td>
+          <td>${p.psStatus}</td>
+          <td>${p.prkUraian}</td>
+          <td>${p.prkNilai}</td>
+          <td>${p.fungsiNama}</td>
+          <td><a href="javascript:void(0)" onclick="kontrakDetailRemovePRK(${p.psdkCode},${p.dkCode})"><i data-feather="trash"></i></a></td>
+          </tr>`
+          return tr;
+        })
+        $('#tbody-prk').html(item)
+        feather.replace()
+      }
+    })
+    unLoadingKuy()
+  }
+
+  function removePrkDetail(element) {
+    $(element).closest('tr').remove()
+  }
   const getSKKIInput = function() {
     $.ajax({
       async: false,
-      url: `${API_URL}SKKI/GetAllSKKINoDt/index/${$("#input-tahun option:selected").val()}/${$("#input-prk option:selected").val()}`,
+      url: `${API_URL}SKKI/GetAllSKKINoDt/index/${$("#input-tahun option:selected").val()}`,
       type: "GET",
       headers: {
         "Authorization": `Bearer ${accessToken}`,
@@ -216,9 +263,122 @@
       }
     })
   }
+  const getPRKInput = function() {
+    $.ajax({
+      async: false,
+      url: `${API_URL}SKKI/GetAllPRKNoDt/index/${$("#input-skki option:selected").val()}`,
+      type: "GET",
+      headers: {
+        "Authorization": `Bearer ${accessToken}`,
+      },
+      success: function(o) {
+        $("select[id='input-prk']").empty();
+        var no = new Option("Pilih PRK", "");
+        $(no).html("Pilih PRK");
+        $("select[id='input-prk']").append(no);
+        $("select[id='input-prk']").select2({
+          data: o.data.map((a) => {
+            return {
+              id: a.psCode,
+              text: a.prkNo
+            }
+          }),
+          dropdownParent: $('#prkModal > .modal-dialog > .modal-content')
+        });
+      },
+      error: function(xhr, status, err) {
+        $("select[id='input-prk']").empty();
+        var no = new Option("Pilih PRK", "");
+        $(no).html("Pilih PRK");
+        $("select[id='input-prk']").append(no);
+        $('#tambahPrk').addClass('disabled')
 
-  function removePrkDetail(element) {
-    $(element).closest('tr').remove()
+      }
+    })
+  }
+  const disableBtnAddPrk = () => {
+    let id = $("#input-prk option:selected").val()
+    if (id) {
+      $('#tambahPrk').removeClass('disabled')
+    } else {
+      $('#tambahPrk').addClass('disabled')
+    }
+  }
+  const getSKKIInputDetail = function() {
+    $.ajax({
+      async: false,
+      url: `${API_URL}SKKI/GetAllSKKINoDt/index/${$("#detail-input-tahun option:selected").val()}`,
+      type: "GET",
+      headers: {
+        "Authorization": `Bearer ${accessToken}`,
+      },
+      success: function(o) {
+        $("select[id='detail-input-skki']").empty();
+        var no = new Option("Pilih SKKI", "");
+        $(no).html("Pilih SKKI");
+        $("select[id='detail-input-skki']").append(no);
+        $("select[id='detail-input-skki']").select2({
+          data: o.data.map((a) => {
+            return {
+              id: a.skkiCode,
+              text: a.skkiNo
+            }
+          }),
+          dropdownParent: $('#detailModal > .modal-dialog > .modal-content')
+        });
+      }
+    })
+  }
+  const getPRKInputDetail = function() {
+    $.ajax({
+      async: false,
+      url: `${API_URL}SKKI/GetAllPRKNoDt/index/${$("#detail-input-skki option:selected").val()}`,
+      type: "GET",
+      headers: {
+        "Authorization": `Bearer ${accessToken}`,
+      },
+      success: function(o) {
+        $("select[id='detail-input-prk']").empty();
+        var no = new Option("Pilih PRK", "");
+        $(no).html("Pilih PRK");
+        $("select[id='detail-input-prk']").append(no);
+        $("select[id='detail-input-prk']").select2({
+          data: o.data.map((a) => {
+            return {
+              id: a.psCode,
+              text: a.prkNo
+            }
+          }),
+          dropdownParent: $('#detailModal > .modal-dialog > .modal-content')
+        });
+      },
+      error: function(xhr, status, err) {
+        $("select[id='detail-input-prk']").empty();
+        var no = new Option("Pilih PRK", "");
+        $(no).html("Pilih PRK");
+        $("select[id='detail-input-prk']").append(no);
+        $('#tambahPrkDetail').attr('disabled', true)
+
+      }
+    })
+  }
+  const disableBtnAddPrkDetail = () => {
+    let skki = $("#detail-input-skki option:selected").val()
+    console.log(skki,'skki')
+    let id = $("#detail-input-prk option:selected").val()
+    if (skki) {
+      if (id) {
+        $('#tambahPrkDetail').attr('disabled', false)
+      } else {
+        $('#tambahPrkDetail').attr('disabled', true)
+      }
+    } else {
+      $("select[id='detail-input-prk']").empty();
+      var no = new Option("Pilih PRK", "");
+      $(no).html("Pilih PRK");
+      $("select[id='detail-input-prk']").append(no);
+      $('#tambahPrkDetail').attr('disabled', true)
+    }
   }
 </script>
 
@@ -250,16 +410,6 @@
     feather.replace()
   });
 
-  $("select[name='tahunCode']").select2({
-    data: GetAllTahun.data.map((a) => {
-      return {
-        id: a.tahunCode,
-        text: a.tahun
-      }
-    }),
-    dropdownParent: $('#prkModal > .modal-dialog > .modal-content')
-  });
-
   $("select[name='vendorCode']").select2({
     data: GetAllVendor.data.map((a) => {
       return {
@@ -268,6 +418,11 @@
       }
     }),
     dropdownParent: $('#prkModal > .modal-dialog > .modal-content')
+  });
+
+  $('select[name="filter-tahun"]').on('change', function() {
+    let table = $('#zero-config').DataTable()
+    table.draw()
   });
 
   $("select[id='input-tahun']").select2({
@@ -280,59 +435,37 @@
     dropdownParent: $('#prkModal > .modal-dialog > .modal-content')
   });
 
-  $('select[name="filter-tahun"]').on('change', function() {
-    let table = $('#zero-config').DataTable()
-    table.draw()
-  });
   $('select[id="input-tahun"]').on('change', function() {
+    getSKKIInput()
+    disableBtnAddPrk();
+  });
+  $('select[id="input-skki"]').on('change', function() {
     getPRKInput()
+    disableBtnAddPrk();
+  });
+  $('select[id="input-prk"]').on("select2:select", function(e) {
+    disableBtnAddPrk();
+  });
+  $("select[id='detail-input-tahun']").select2({
+    data: GetAllTahun.data.map((a) => {
+      return {
+        id: a.tahunCode,
+        text: a.tahun
+      }
+    }),
+    dropdownParent: $('#detailModal > .modal-dialog > .modal-content')
   });
 
-  $('select[name="skkiCode"]').on("select2:select", function(e) {
-    let id = e.params.data.id
-    if (id) {
-      const SKKI = function() {
-        var result = null;
-        $.ajax({
-          async: false,
-          url: `${API_URL}SKKI/GetOneSKKI/index/${id}`,
-          type: "GET",
-          headers: {
-            "Authorization": `Bearer ${accessToken}`,
-          },
-          success: function(data) {
-            result = data;
-          }
-        })
-        return result;
-      }()
-      $('#detail-skki-form').html(`<table id="zero" class="table " style="width:100%">
-                <tr>
-                  <th>Tahun</th>
-                  <th>NO PRK</th>
-                  <th>NO SKKI</th>
-                  <th>No Usulan</th>
-                  <th>Tanggal Usulan</th>
-                  <th>Tanggal Terbit</th>
-                  <th>Unit</th>
-                  <th>Uraian</th>
-                  <th>Nilai</th>
-                </tr>
-                <tr>
-                  <td>${SKKI.data.tahun}</td>
-                  <td>${SKKI.data.prkNo}</td>
-                  <td>${SKKI.data.skkiNo}</td>
-                  <td>${SKKI.data.skkiNoUsulan}</td>
-                  <td>${SKKI.data.skkiTglUsulan}</td>
-                  <td>${SKKI.data.skkiTglTerbit}</td>
-                  <td>${SKKI.data.unitNama}</td>
-                  <td>${SKKI.data.skkiUraian}</td>
-                  <td>${SKKI.data.skkiNilai}</td>
-                </tr>
-              </table>`)
-    } else {
-      $('#detail-skki-form').html('')
-    }
+  $('select[id="detail-input-tahun"]').on('change', function() {
+    getSKKIInputDetail()
+    disableBtnAddPrkDetail();
+  });
+  $('select[id="detail-input-skki"]').on('change', function() {
+    getPRKInputDetail()
+    disableBtnAddPrkDetail();
+  });
+  $('select[id="detail-input-prk"]').on("select2:select", function(e) {
+    disableBtnAddPrkDetail();
   });
 </script>
 

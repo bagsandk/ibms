@@ -5,6 +5,7 @@ function renderDataTable({
   filter = (d) => {
     return d;
   },
+  footerCallback = function (row, data, start, end, display) {},
   columnDefs,
 }) {
   var table = $(id).DataTable({
@@ -41,5 +42,6 @@ function renderDataTable({
     drawCallback: function (settings) {
       feather.replace();
     },
+    footerCallback: footerCallback,
   });
 }

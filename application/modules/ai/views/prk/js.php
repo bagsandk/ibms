@@ -18,8 +18,22 @@
         targets: [0, 9],
         orderable: false,
       }, ],
+      footerCallback: function(row, data, start, end, display) {
+        var api = this.api(),
+          total = api
+          .column(7)
+          .data()
+          .reduce(function(a, b) {
+            var x = parseFloat(a) || 0;
+            var y = parseFloat(b) || 0;
+            return x + y;
+          }, 0);
+        rp = $.fn.dataTable.render.number(".", ",", 0, "Rp.").display;
+        $(api.column(7).footer()).html(rp(total));
+      },
       filter: function(d) {
         d.tahunCode = $("#filter-tahun option:selected").val()
+        d.psStatus = $("#filter-status option:selected").val()
       },
       columns: [{
         name: 'prkCode',
@@ -52,7 +66,9 @@
       }, {
         name: 'prkNilai',
         data: 'prkNilai',
+        className: 'prkNilai',
         title: 'Nilai',
+        render: $.fn.dataTable.render.number('.', ',', 0, 'Rp.')
       }, {
         name: 'fungsiNama',
         data: 'fungsiNama',
@@ -65,6 +81,7 @@
       }, ],
     })
   });
+
 
   $(document).on('click', '.editButton', (e) => {
     let dataid = e.target.getAttribute('data-id')
@@ -162,7 +179,12 @@
     let table = $('#zero-config').DataTable()
     table.draw()
   });
+  $('select[name="filter-status"]').on('change', function() {
+    let table = $('#zero-config').DataTable()
+    table.draw()
+  });
 
+  $("select[name='filter-status']").select2()
   $("select[name='filter-tahun']").select2({
     data: GetAllTahun.data.map((a) => {
       return {

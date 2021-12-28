@@ -14,15 +14,32 @@
             </button> -->
           </div>
         </div>
-        <div class="form-group col-md-4">
-          <label for="input-filter">Tahun</label>
-          <select name="filter-tahun" id="filter-tahun" class="form-control  basic">
+        <div class="row">
 
-          </select>
+          <div class="form-group col-md-4">
+            <label for="input-filter">Tahun</label>
+            <select name="filter-tahun" id="filter-tahun" class="form-control  basic">
+            </select>
+          </div>
+          <div class="form-group col-md-4">
+            <label for="input-filter">Status</label>
+            <select name="filter-status" id="filter-status" class="form-control  basic">
+              <option value="">--ALL--</option>
+              <option value="Murni">Murni</option>
+              <option value="Lanjutan">Lanjutan</option>
+            </select>
+          </div>
         </div>
         <div class="table-responsive mt-4">
           <table id="zero-config" class="table " style="width:100%">
-
+            <tfoot>
+              <tr>
+                <td colspan="7" style="text-align: right;">Total Nilai : </td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+            </tfoot>
           </table>
         </div>
       </div>
